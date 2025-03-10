@@ -1,0 +1,28 @@
+# Home Automation System with GSM
+
+## Description
+This is a Home Automation System that allows controlling household appliances using SMS commands sent via a GSM module. The system uses an Arduino board, a GSM module (SIM800L/SIM900), and a relay to control home devices remotely.
+
+## Hardware Requirements
+- Arduino Uno (or any compatible microcontroller)
+- GSM Module (SIM800L/SIM900)
+- Relay Module (for controlling appliances)
+- Power supply for Arduino and GSM module
+- Jumper wires
+- Breadboard (optional)
+
+## Software Requirements
+- Arduino IDE
+- Arduino libraries: SoftwareSerial
+
+## Circuit Diagram
+![Circuit Diagram](docs/schematic.png)
+
+## Installation and Setup
+1. Connect the GSM module and relay to the Arduino as per the circuit diagram.
+2. Upload the code (`home_automation_gsm.ino`) to the Arduino using the Arduino IDE.
+3. Insert a SIM card with SMS functionality into the GSM module.
+4. Send an SMS with the command "ON" to turn on the appliance and "OFF" to turn off the appliance.
+
+## License
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
