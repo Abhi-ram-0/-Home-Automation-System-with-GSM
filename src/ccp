@@ -1,0 +1,54 @@
+src
+#include <SoftwareSerial.h>
+
+// Create SoftwareSerial object for GSM communication
+SoftwareSerial gsmSerial(7, 8); // RX, TX pins
+
+// Relay pin (for controlling appliances)
+int relayPin = 9;
+
+void setup() {
+  // Initialize Serial communication for debugging
+  Serial.begin(9600);
+  gsmSerial.begin(9600);
+
+  // Set relay pin as output
+  pinMode(relayPin, OUTPUT);
+  digitalWrite(relayPin, LOW); // Initialize with the appliance off
+
+  Serial.println("Home Automation System with GSM is ready.");
+}
+
+void loop() {
+  // Check if there is data available from GSM module
+  if (gsmSerial.available()) {
+    String message = gsmSerial.readString(); // Read incoming SMS
+    
+    Serial.println("Received SMS: " + message);
+    
+    // Check if the SMS contains ON or OFF command
+    if (message.indexOf("ON") >= 0) {
+      digitalWrite(relayPin, HIGH); // Turn ON the appliance
+      sendSMS("Appliance is ON.");
+    } 
+    else if (message.indexOf("OFF") >= 0) {
+      digitalWrite(relayPin, LOW); // Turn OFF the appliance
+      sendSMS("Appliance is OFF.");
+    } 
+    else {
+      sendSMS("Invalid Command. Use ON or OFF.");
+    }
+  }
+}
+
+// Function to send SMS via GSM module
+void sendSMS(String message) {
+  gsmSerial.println("AT+CMGF=1");  // Set SMS to text mode
+  delay(100);
+  gsmSerial.println("AT+CMGS=\"+1234567890\""); // Replace with your phone number
+  delay(100);
+  gsmSerial.println(message); // Send message
+  delay(100);
+  gsmSerial.write(26); // Send Ctrl+Z to indicate end of message
+  delay(1000);
+}
